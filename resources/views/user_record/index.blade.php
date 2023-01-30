@@ -1,0 +1,62 @@
+@extends('user_record.layout')
+  
+@section('content')
+
+  
+ 
+
+    <div class="row">
+        <div class="col-lg-12 margin-tb">
+            <div class="pull-left">
+                <h2>User Record</h2>
+            </div>
+            <div class="pull-right">
+                <a class="btn btn-success" href="{{ route('user_record.create') }}"> Create New User</a>
+            </div>
+        </div>
+    </div>
+   
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
+   
+    <table class="table table-bordered">
+        <tr>
+            <th>No</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th width="280px">Action</th>
+        </tr>
+        @foreach ($user_record as $user)
+        <tr>
+            <td>{{ ++$i }}</td>
+            <td>{{ $user->name }}</td>
+            <td>{{ $user->email }}</td>
+            <td>{{ $user->phone }}</td>
+            <td>
+                <form action="{{ route('user_record.destroy',$user->id) }}" method="POST">
+   
+                    <a class="btn btn-info" href="{{ route('user_record.show',$user->id) }}">Show</a>
+    
+                    <a class="btn btn-primary" href="{{ route('user_record.edit',$user->id) }}">Edit</a>
+   
+                    @csrf
+                    @method('DELETE')
+      
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        @endforeach
+    </table>
+  
+    {!! $user_record->links('pagination::bootstrap-4') !!}
+</div>
+
+
+@endsection
+
+
